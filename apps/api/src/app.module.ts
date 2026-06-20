@@ -17,8 +17,10 @@ import { StellarTimeoutModule } from './monitoring/timeouts/stellar/stellar-time
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { LoggerModule } from './logger/logger.module';
+import { StellarExplainabilityModule } from './explainability/routes/stellar/explainability.module';
 import { Transaction } from './transactions/entities/transaction.entity';
 import { WalletSession } from './wallet/entities/wallet-session.entity';
+import { RecommendationV2Module } from './api/routes/v2/recommendation.module';
 
 @Module({
   imports: [
@@ -51,12 +53,16 @@ import { WalletSession } from './wallet/entities/wallet-session.entity';
     WalletModule,
     SorobanContractModule,
     StellarTimeoutModule,
+    RecommendationV2Module,
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
         limit: 10,
       },
     ]),
+    // Explainability API for Stellar route recommendations
+    // Exposed through /explainability/stellar endpoints.
+    StellarExplainabilityModule,
   ],
   controllers: [AppController],
   providers: [
